@@ -78,6 +78,8 @@ extern uint32_t PAGE_TABLE_LATENCY, SWAP_LATENCY;
 #define LLC_MSHR_SIZE NUM_CPUS*64
 #define LLC_LATENCY 20  // 5 (L1I or L1D) + 10 + 20 = 35 cycles
 
+void print_cache_config();
+
 class CACHE : public MEMORY {
   public:
     uint32_t cpu;
@@ -95,6 +97,7 @@ class CACHE : public MEMORY {
              pf_issued,
              pf_useful,
              pf_useless,
+	     pf_late,
              pf_fill;
 
     // queues
@@ -155,6 +158,7 @@ class CACHE : public MEMORY {
         pf_issued = 0;
         pf_useful = 0;
         pf_useless = 0;
+        pf_late = 0;
         pf_fill = 0;
     };
 
@@ -214,6 +218,8 @@ class CACHE : public MEMORY {
          llc_prefetcher_operate(uint64_t addr, uint64_t ip, uint8_t cache_hit, uint8_t type, uint32_t metadata_in),
          l2c_prefetcher_cache_fill(uint64_t addr, uint32_t set, uint32_t way, uint8_t prefetch, uint64_t evicted_addr, uint32_t metadata_in),
          llc_prefetcher_cache_fill(uint64_t addr, uint32_t set, uint32_t way, uint8_t prefetch, uint64_t evicted_addr, uint32_t metadata_in);
+
+    void prefetcher_feedback(uint64_t &pref_gen, uint64_t &pref_fill, uint64_t &pref_used, uint64_t &pref_late);
     
     uint32_t get_set(uint64_t address),
              get_way(uint64_t address, uint32_t set),

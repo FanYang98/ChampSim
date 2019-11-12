@@ -4,6 +4,23 @@
 uint32_t DRAM_MTPS, DRAM_DBUS_RETURN_TIME,
          tRP, tRCD, tCAS;
 
+void print_dram_config()
+{
+    cout << "dram_channel_width " << DRAM_CHANNEL_WIDTH << endl
+        << "dram_wq_size " << DRAM_WQ_SIZE << endl
+        << "dram_rq_size " << DRAM_RQ_SIZE << endl
+        << "tRP " << tRP_DRAM_NANOSECONDS << endl
+        << "tRCD " << tRCD_DRAM_NANOSECONDS << endl
+        << "tCAS " << tCAS_DRAM_NANOSECONDS << endl
+        << "dram_dbus_turn_around_time " << DRAM_DBUS_TURN_AROUND_TIME << endl
+        << "dram_write_high_wm " << DRAM_WRITE_HIGH_WM << endl
+        << "dram_write_low_wm " << DRAM_WRITE_LOW_WM << endl
+        << "min_dram_writes_per_switch " << MIN_DRAM_WRITES_PER_SWITCH << endl
+        << "dram_mtps " << DRAM_MTPS << endl
+        << "dram_dbus_return_time " << DRAM_DBUS_RETURN_TIME << endl
+        << endl;
+}
+
 void MEMORY_CONTROLLER::reset_remain_requests(PACKET_QUEUE *queue, uint32_t channel)
 {
     for (uint32_t i=0; i<queue->SIZE; i++) {

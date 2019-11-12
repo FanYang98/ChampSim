@@ -3,6 +3,64 @@
 
 uint64_t l2pf_access = 0;
 
+void print_cache_config()
+{
+    cout << "itlb_set " << ITLB_SET << endl
+        << "itlb_way " << ITLB_WAY << endl
+        << "itlb_rq_size " << ITLB_RQ_SIZE << endl
+        << "itlb_wq_size " << ITLB_WQ_SIZE << endl
+        << "itlb_pq_size " << ITLB_PQ_SIZE << endl
+        << "itlb_mshr_size " << ITLB_MSHR_SIZE << endl
+        << "itlb_latency " << ITLB_LATENCY << endl
+        << "dtlb_set " << DTLB_SET << endl
+        << "dtlb_way " << DTLB_WAY << endl
+        << "dtlb_rq_size " << DTLB_RQ_SIZE << endl
+        << "dtlb_wq_size " << DTLB_WQ_SIZE << endl
+        << "dtlb_pq_size " << DTLB_PQ_SIZE << endl
+        << "dtlb_mshr_size " << DTLB_MSHR_SIZE << endl
+        << "dtlb_latency " << DTLB_LATENCY << endl
+        << "stlb_set " << STLB_SET << endl
+        << "stlb_way " << STLB_WAY << endl
+        << "stlb_rq_size " << STLB_RQ_SIZE << endl
+        << "stlb_wq_size " << STLB_WQ_SIZE << endl
+        << "stlb_pq_size " << STLB_PQ_SIZE << endl
+        << "stlb_mshr_size " << STLB_MSHR_SIZE << endl
+        << "stlb_latency " << STLB_LATENCY << endl
+        << "l1i_size " << L1I_SET*L1I_WAY*BLOCK_SIZE << endl
+        << "l1i_set " << L1I_SET << endl
+        << "l1i_way " << L1I_WAY << endl
+        << "l1i_rq_size " << L1I_RQ_SIZE << endl
+        << "l1i_wq_size " << L1I_WQ_SIZE << endl
+        << "l1i_pq_size " << L1I_PQ_SIZE << endl
+        << "l1i_mshr_size " << L1I_MSHR_SIZE << endl
+        << "l1i_latency " << L1I_LATENCY << endl
+        << "l1d_size " << L1D_SET*L1D_WAY*BLOCK_SIZE << endl
+        << "l1d_set " << L1D_SET << endl
+        << "l1d_way " << L1D_WAY << endl
+        << "l1d_rq_size " << L1D_RQ_SIZE << endl
+        << "l1d_wq_size " << L1D_WQ_SIZE << endl
+        << "l1d_pq_size " << L1D_PQ_SIZE << endl
+        << "l1d_mshr_size " << L1D_MSHR_SIZE << endl
+        << "l1d_latency " << L1D_LATENCY << endl
+        << "l2c_size " << L2C_SET*L2C_WAY*BLOCK_SIZE << endl
+        << "l2c_set " << L2C_SET << endl
+        << "l2c_way " << L2C_WAY << endl
+        << "l2c_rq_size " << L2C_RQ_SIZE << endl
+        << "l2c_wq_size " << L2C_WQ_SIZE << endl
+        << "l2c_pq_size " << L2C_PQ_SIZE << endl
+        << "l2c_mshr_size " << L2C_MSHR_SIZE << endl
+        << "l2c_latency " << L2C_LATENCY << endl
+        << "llc_size " << LLC_SET*LLC_WAY*BLOCK_SIZE << endl
+        << "llc_set " << LLC_SET << endl
+        << "llc_way " << LLC_WAY << endl
+        << "llc_rq_size " << LLC_RQ_SIZE << endl
+        << "llc_wq_size " << LLC_WQ_SIZE << endl
+        << "llc_pq_size " << LLC_PQ_SIZE << endl
+        << "llc_mshr_size " << LLC_MSHR_SIZE << endl
+        << "llc_latency " << LLC_LATENCY << endl
+        << std::endl;
+}
+
 void CACHE::handle_fill()
 {
     // handle fill
@@ -449,7 +507,9 @@ void CACHE::handle_read()
 
       uint32_t read_cpu = RQ.entry[RQ.head].cpu;
       if (read_cpu == NUM_CPUS)
+      {
         return;
+      }
 
         // handle the oldest entry
         if ((RQ.entry[RQ.head].event_cycle <= current_core_cycle[read_cpu]) && (RQ.occupancy > 0)) {
@@ -650,6 +710,8 @@ void CACHE::handle_read()
 
                         // update request
                         if (MSHR.entry[mshr_index].type == PREFETCH) {
+			    // RBERA: add late prefetch stats here
+			    pf_late++;
                             uint8_t  prior_returned = MSHR.entry[mshr_index].returned;
                             uint64_t prior_event_cycle = MSHR.entry[mshr_index].event_cycle;
                             MSHR.entry[mshr_index] = RQ.entry[index];
@@ -718,7 +780,9 @@ void CACHE::handle_prefetch()
       
       uint32_t prefetch_cpu = PQ.entry[PQ.head].cpu;
       if (prefetch_cpu == NUM_CPUS)
+      {
         return;
+      }
 
         // handle the oldest entry
         if ((PQ.entry[PQ.head].event_cycle <= current_core_cycle[prefetch_cpu]) && (PQ.occupancy > 0)) {
@@ -1527,3 +1591,12 @@ void CACHE::increment_WQ_FULL(uint64_t address)
 {
     WQ.FULL++;
 }
+
+void CACHE::prefetcher_feedback(uint64_t &pref_gen, uint64_t &pref_fill, uint64_t &pref_used, uint64_t &pref_late)
+{
+    pref_gen = pf_issued;
+    pref_fill = pf_fill;
+    pref_used = pf_useful;
+    pref_late = pf_late;
+}
+

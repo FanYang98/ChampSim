@@ -21,6 +21,8 @@ extern uint32_t DRAM_MTPS, DRAM_DBUS_RETURN_TIME;
 #define DRAM_WRITE_LOW_WM     ((DRAM_WQ_SIZE*3)>>2) // 6/8th
 #define MIN_DRAM_WRITES_PER_SWITCH (DRAM_WQ_SIZE*1/4)
 
+void print_dram_config();
+
 // DRAM
 class MEMORY_CONTROLLER : public MEMORY {
   public:
