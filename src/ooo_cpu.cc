@@ -6,6 +6,25 @@ O3_CPU ooo_cpu[NUM_CPUS];
 uint64_t current_core_cycle[NUM_CPUS], stall_cycle[NUM_CPUS];
 uint32_t SCHEDULING_LATENCY = 0, EXEC_LATENCY = 0;
 
+void print_core_config()
+{
+    cout << "fetch_width " << FETCH_WIDTH << endl
+        << "decode_width " << DECODE_WIDTH << endl
+        << "exec_width " << EXEC_WIDTH << endl
+        << "lq_width " << LQ_WIDTH << endl
+        << "sq_width " << SQ_WIDTH << endl
+        << "retire_width " << RETIRE_WIDTH << endl
+        << "scheduler_size " << SCHEDULER_SIZE << endl
+        << "branch_mispredict_penalty " << BRANCH_MISPREDICT_PENALTY << endl
+        << "rob_size " << ROB_SIZE << endl
+        << "lq_size " << LQ_SIZE << endl
+        << "sq_size " << SQ_SIZE << endl
+        << "num_instr_destinations_sparc " << NUM_INSTR_DESTINATIONS_SPARC << endl
+        << "num_instr_destinations " << NUM_INSTR_DESTINATIONS << endl
+        << "num_instr_sources " << NUM_INSTR_SOURCES << endl
+        << endl;
+}
+
 void O3_CPU::initialize_core()
 {
 

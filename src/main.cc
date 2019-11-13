@@ -102,7 +102,7 @@ void print_branch_stats(uint32_t cpu)
     // for (uint32_t i=0; i<NUM_CPUS; i++) {
         cout << "Core_" << cpu << "_branch_prediction_accuracy " << (100.0*(ooo_cpu[cpu].num_branch - ooo_cpu[cpu].branch_mispredictions)) / ooo_cpu[cpu].num_branch << endl
             << "Core_" << cpu << "_branch_MPKI " << (1000.0*ooo_cpu[cpu].branch_mispredictions)/(ooo_cpu[cpu].num_retired - ooo_cpu[cpu].warmup_instructions) << endl
-            << "Core_" << cpu << "_Average_ROB_Occupancy_at_Mispredict " << (1.0*ooo_cpu[cpu].total_rob_occupancy_at_branch_mispredict)/ooo_cpu[cpu].branch_mispredictions << endl
+            << "Core_" << cpu << "_average_ROB_occupancy_at_mispredict " << (1.0*ooo_cpu[cpu].total_rob_occupancy_at_branch_mispredict)/ooo_cpu[cpu].branch_mispredictions << endl
             << endl;
     // }
 }
@@ -126,9 +126,9 @@ void print_dram_stats()
     for (uint32_t i=0; i<DRAM_CHANNELS; i++)
         total_congested_cycle += uncore.DRAM.dbus_cycle_congested[i];
     if (uncore.DRAM.dbus_congested[NUM_TYPES][NUM_TYPES])
-        cout << "AVG_CONGESTED_CYCLE " << (total_congested_cycle / uncore.DRAM.dbus_congested[NUM_TYPES][NUM_TYPES]) << endl;
+        cout << "avg_congested_cycle " << (total_congested_cycle / uncore.DRAM.dbus_congested[NUM_TYPES][NUM_TYPES]) << endl;
     else
-        cout << "AVG_CONGESTED_CYCLE 0" << endl;
+        cout << "avg_congested_cycle 0" << endl;
 }
 
 void reset_cache_stats(uint32_t cpu, CACHE *cache)
@@ -468,9 +468,9 @@ void print_knobs()
     cout << "warmup_instructions " << warmup_instructions << endl
         << "simulation_instructions " << simulation_instructions << endl
         << "champsim_seed " << champsim_seed << endl
-        << "low_bandwidth " << knob_low_bandwidth << endl
+        // << "low_bandwidth " << knob_low_bandwidth << endl
         // << "scramble_loads " << knob_scramble_loads << endl
-        << "cloudsuite " << knob_cloudsuite << endl
+        // << "cloudsuite " << knob_cloudsuite << endl
         << endl;
     cout << "num_cpus " << NUM_CPUS << endl
         << "cpu_freq " << CPU_FREQ << endl
@@ -488,6 +488,7 @@ void print_knobs()
         << "dram_size " << DRAM_SIZE << endl
         << "dram_pages " << DRAM_PAGES << endl
         << endl;
+    print_core_config();
     print_cache_config();
     print_dram_config();
     cout << endl;
@@ -564,14 +565,6 @@ int main(int argc, char** argv)
             break;
     }
 
-    // consequences of knobs
-    // cout << "Warmup Instructions: " << warmup_instructions << endl;
-    // cout << "Simulation Instructions: " << simulation_instructions << endl;
-    // //cout << "Scramble Loads: " << (knob_scramble_loads ? "ture" : "false") << endl;
-    // cout << "Number of CPUs: " << NUM_CPUS << endl;
-    // cout << "LLC sets: " << LLC_SET << endl;
-    // cout << "LLC ways: " << LLC_WAY << endl;
-
     if (knob_low_bandwidth)
         DRAM_MTPS = DRAM_IO_FREQ/4;
     else
@@ -585,10 +578,7 @@ int main(int argc, char** argv)
     // default: 16 = (64 / 8) * (3200 / 1600)
     // it takes 16 CPU cycles to tranfser 64B cache block on a 8B (64-bit) bus 
     // note that dram burst length = BLOCK_SIZE/DRAM_CHANNEL_WIDTH
-    DRAM_DBUS_RETURN_TIME = (BLOCK_SIZE / DRAM_CHANNEL_WIDTH) * (CPU_FREQ / DRAM_MTPS);
-
-    // printf("Off-chip DRAM Size: %u MB Channels: %u Width: %u-bit Data Rate: %u MT/s\n",
-    //         DRAM_SIZE, DRAM_CHANNELS, 8*DRAM_CHANNEL_WIDTH, DRAM_MTPS);
+    DRAM_DBUS_RETURN_TIME = (BLOCK_SIZE / DRAM_CHANNEL_WIDTH) * (1.0 * CPU_FREQ / DRAM_MTPS);
 
     // end consequence of knobs
 
@@ -918,8 +908,8 @@ int main(int argc, char** argv)
         print_roi_stats(i, &ooo_cpu[i].L2C);
 #endif
         print_roi_stats(i, &uncore.LLC);
-        cout << "Core_" << i << "_major_fault " << major_fault[i] << endl
-            << "Core_" << i << "_minor_fault " << minor_fault[i] << endl
+        cout << "Core_" << i << "_major_page_fault " << major_fault[i] << endl
+            << "Core_" << i << "_minor_page_fault " << minor_fault[i] << endl
             << endl;
     }
 

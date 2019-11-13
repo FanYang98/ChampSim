@@ -12,6 +12,7 @@ void print_cache_config()
         << "itlb_pq_size " << ITLB_PQ_SIZE << endl
         << "itlb_mshr_size " << ITLB_MSHR_SIZE << endl
         << "itlb_latency " << ITLB_LATENCY << endl
+        << endl
         << "dtlb_set " << DTLB_SET << endl
         << "dtlb_way " << DTLB_WAY << endl
         << "dtlb_rq_size " << DTLB_RQ_SIZE << endl
@@ -19,6 +20,7 @@ void print_cache_config()
         << "dtlb_pq_size " << DTLB_PQ_SIZE << endl
         << "dtlb_mshr_size " << DTLB_MSHR_SIZE << endl
         << "dtlb_latency " << DTLB_LATENCY << endl
+        << endl
         << "stlb_set " << STLB_SET << endl
         << "stlb_way " << STLB_WAY << endl
         << "stlb_rq_size " << STLB_RQ_SIZE << endl
@@ -26,7 +28,8 @@ void print_cache_config()
         << "stlb_pq_size " << STLB_PQ_SIZE << endl
         << "stlb_mshr_size " << STLB_MSHR_SIZE << endl
         << "stlb_latency " << STLB_LATENCY << endl
-        << "l1i_size " << L1I_SET*L1I_WAY*BLOCK_SIZE << endl
+        << endl
+        << "l1i_size " << (L1I_SET*L1I_WAY*BLOCK_SIZE)/1024 << endl
         << "l1i_set " << L1I_SET << endl
         << "l1i_way " << L1I_WAY << endl
         << "l1i_rq_size " << L1I_RQ_SIZE << endl
@@ -34,7 +37,8 @@ void print_cache_config()
         << "l1i_pq_size " << L1I_PQ_SIZE << endl
         << "l1i_mshr_size " << L1I_MSHR_SIZE << endl
         << "l1i_latency " << L1I_LATENCY << endl
-        << "l1d_size " << L1D_SET*L1D_WAY*BLOCK_SIZE << endl
+        << endl
+        << "l1d_size " << (L1D_SET*L1D_WAY*BLOCK_SIZE)/1024 << endl
         << "l1d_set " << L1D_SET << endl
         << "l1d_way " << L1D_WAY << endl
         << "l1d_rq_size " << L1D_RQ_SIZE << endl
@@ -42,7 +46,8 @@ void print_cache_config()
         << "l1d_pq_size " << L1D_PQ_SIZE << endl
         << "l1d_mshr_size " << L1D_MSHR_SIZE << endl
         << "l1d_latency " << L1D_LATENCY << endl
-        << "l2c_size " << L2C_SET*L2C_WAY*BLOCK_SIZE << endl
+        << endl
+        << "l2c_size " << (L2C_SET*L2C_WAY*BLOCK_SIZE)/1024 << endl
         << "l2c_set " << L2C_SET << endl
         << "l2c_way " << L2C_WAY << endl
         << "l2c_rq_size " << L2C_RQ_SIZE << endl
@@ -50,7 +55,8 @@ void print_cache_config()
         << "l2c_pq_size " << L2C_PQ_SIZE << endl
         << "l2c_mshr_size " << L2C_MSHR_SIZE << endl
         << "l2c_latency " << L2C_LATENCY << endl
-        << "llc_size " << LLC_SET*LLC_WAY*BLOCK_SIZE << endl
+        << endl
+        << "llc_size " << (LLC_SET*LLC_WAY*BLOCK_SIZE)/1024 << endl
         << "llc_set " << LLC_SET << endl
         << "llc_way " << LLC_WAY << endl
         << "llc_rq_size " << LLC_RQ_SIZE << endl
@@ -58,7 +64,7 @@ void print_cache_config()
         << "llc_pq_size " << LLC_PQ_SIZE << endl
         << "llc_mshr_size " << LLC_MSHR_SIZE << endl
         << "llc_latency " << LLC_LATENCY << endl
-        << std::endl;
+        << endl;
 }
 
 void CACHE::handle_fill()

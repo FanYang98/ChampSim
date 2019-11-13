@@ -82,7 +82,7 @@ void CACHE::llc_initialize_replacement()
             do_again = 0;
             rand_seed = rand_seed * 1103515245 + 12345;
             rand_sets[i] = ((unsigned) ((rand_seed/65536) % max_rand)) % my_set;
-            printf("Assign rand_sets[%d]: %u  LLC: %u\n", i, rand_sets[i], my_set);
+            // printf("Assign rand_sets[%d]: %u  LLC: %u\n", i, rand_sets[i], my_set);
             for (int j=0; j<i; j++) 
             {
                 if (rand_sets[i] == rand_sets[j]) 
@@ -92,7 +92,7 @@ void CACHE::llc_initialize_replacement()
                 }
             }
         } while (do_again);
-        printf("rand_sets[%d]: %d\n", i, rand_sets[i]);
+        // printf("rand_sets[%d]: %d\n", i, rand_sets[i]);
     }
 }
 

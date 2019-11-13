@@ -2,6 +2,7 @@
 #define OOO_CPU_H
 
 #include "cache.h"
+#include "instruction.h"
 
 #ifdef CRC2_COMPILE
 #define STAT_PRINTING_PERIOD 1000000
@@ -27,6 +28,8 @@ using namespace std;
 #define STA_SIZE (ROB_SIZE*NUM_INSTR_DESTINATIONS_SPARC)
 
 extern uint32_t SCHEDULING_LATENCY, EXEC_LATENCY;
+
+void print_core_config();
 
 // cpu
 class O3_CPU {
