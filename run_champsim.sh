@@ -14,15 +14,15 @@ TRACE=${4}
 OPTION=${5}
 
 # Sanity check
-if [ -z $TRACE_DIR ] || [ ! -d "$TRACE_DIR" ] ; then
-    echo "[ERROR] Cannot find a trace directory: $TRACE_DIR"
-    exit 1
-fi
-
-if [ ! -f "bin/$BINARY" ] ; then
-    echo "[ERROR] Cannot find a ChampSim binary: bin/$BINARY"
-    exit 1
-fi
+#if [ -z $TRACE_DIR ] || [ ! -d "$TRACE_DIR" ] ; then
+#    echo "[ERROR] Cannot find a trace directory: $TRACE_DIR"
+#    exit 1
+#fi
+#
+#if [ ! -f "$BINARY" ] ; then
+#    echo "[ERROR] Cannot find a ChampSim binary: $BINARY"
+#    exit 1
+#fi
 
 re='^[0-9]+$'
 if ! [[ $N_WARM =~ $re ]] || [ -z $N_WARM ] ; then
@@ -36,10 +36,10 @@ if ! [[ $N_SIM =~ $re ]] || [ -z $N_SIM ] ; then
     exit 1
 fi
 
-if [ ! -f "$TRACE_DIR/$TRACE" ] ; then
-    echo "[ERROR] Cannot find a trace file: $TRACE_DIR/$TRACE"
-    exit 1
-fi
+#if [ ! -f "$TRACE_DIR/$TRACE" ] ; then
+#    echo "[ERROR] Cannot find a trace file: $TRACE_DIR/$TRACE"
+#    exit 1
+#fi
 
 mkdir -p results_${N_SIM}M
-(./bin/${BINARY} -warmup_instructions ${N_WARM}000000 -simulation_instructions ${N_SIM}000000 ${OPTION} -traces ${TRACE_DIR}/${TRACE}) | tee results_${N_SIM}M/${TRACE}-${BINARY}${OPTION}.txt
+(${BINARY} -warmup_instructions ${N_WARM}000000 -simulation_instructions ${N_SIM}000000 ${OPTION} -traces ${TRACE})
