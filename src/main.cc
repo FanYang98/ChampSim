@@ -49,7 +49,7 @@ void print_roi_stats(uint32_t cpu, CACHE *cache)
     cout<< "Core_" << cpu << "_" << cache->NAME << "_total_access " << TOTAL_ACCESS << endl
         << "Core_" << cpu << "_" << cache->NAME << "_total_hit " << TOTAL_HIT << endl
         << "Core_" << cpu << "_" << cache->NAME << "_total_miss " << TOTAL_MISS << endl
-        << "Core_" << cpu << "_" << cache->NAME << " loads " << cache->roi_access[cpu][0] << endl
+        << "Core_" << cpu << "_" << cache->NAME << "_loads " << cache->roi_access[cpu][0] << endl
         << "Core_" << cpu << "_" << cache->NAME << "_load_hit " << cache->roi_hit[cpu][0] << endl
         << "Core_" << cpu << "_" << cache->NAME << "_load_miss " << cache->roi_miss[cpu][0] << endl
         << "Core_" << cpu << "_" << cache->NAME << "_RFOs " << cache->roi_access[cpu][1] << endl
@@ -65,6 +65,7 @@ void print_roi_stats(uint32_t cpu, CACHE *cache)
         << "Core_" << cpu << "_" << cache->NAME << "_prefetch_issued " << cache->pf_issued << endl
         << "Core_" << cpu << "_" << cache->NAME << "_prefetch_useful " << cache->pf_useful << endl
         << "Core_" << cpu << "_" << cache->NAME << "_prefetch_useless " << cache->pf_useless << endl
+        << "Core_" << cpu << "_" << cache->NAME << "_prefetch_late " << cache->pf_late << endl
         << "Core_" << cpu << "_" << cache->NAME << "_average_miss_latency " << (1.0*(cache->total_miss_latency))/TOTAL_MISS << endl
         << endl;
 }
