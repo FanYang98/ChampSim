@@ -77,3 +77,6 @@ define make-depend
         $(CFlags) \
         $1
 endef
+
+runsim:
+	./run_champsim.sh ./bin/perceptron-no-next_line-no-lru-1core 1 5 ./traces/436.cactusADM-1804B.champsimtrace.xz
