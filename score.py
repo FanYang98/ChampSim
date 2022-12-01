@@ -1,5 +1,4 @@
 import os.path
-import numpy
 import argparse
 import sys
 
