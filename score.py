@@ -33,7 +33,7 @@ for path,d,filelist in os.walk(trace_file_path):
         t = os.path.join(path,filename)
         traces.append(t)
         
-cmd = "./run_champsim.sh " + bin_path + " 5 10 "
+cmd = "./run_champsim.sh " + bin_path + " 50 100 "
 
 print("please wait...")
 student_num = "tmplog"
